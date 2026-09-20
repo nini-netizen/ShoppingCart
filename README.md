@@ -9,9 +9,7 @@
 專案採用 MVC 架構：Controller 處理商品與購物車操作，View 顯示網頁，Model 定義使用者、商品、購物車及購物車項目的資料。資料存取由 Entity Framework Core 的 `AppDbContext` 處理。
 
 ## 使用技術
-- C#、ASP.NET Core MVC、Razor Views
-- Entity Framework Core、SQL Server
-- Bootstrap
+C#、ASP.NET Core MVC、Entity Framework Core、SQL Server。
 
 ## 專案展示
 [Demo 影片](https://youtu.be/kkuoht5sxno)
