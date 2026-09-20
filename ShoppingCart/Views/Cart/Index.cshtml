@@ -1,0 +1,68 @@
+﻿@model List<ShoppingCart.Models.CartItem>
+
+<h2>My Cart</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+
+@if (!Model.Any())
+{
+    <p>購物車目前是空的。</p>
+    <a class="btn btn-secondary" href="/Products">Back to Products</a>
+    return;
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Product</th>
+            <th>Unit Price</th>
+            <th style="width:160px;">Qty</th>
+            <th>Subtotal</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var name = item.Product?.Name ?? $"ProductId={item.ProductId}";
+            var subtotal = item.UnitPrice * item.Quantity;
+
+            <tr>
+                <td>@name</td>
+                <td>@item.UnitPrice</td>
+                <td>
+                    <form asp-controller="Cart" asp-action="Update" method="post" class="d-flex gap-2">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                        <input type="number" name="quantity" min="1" value="@item.Quantity" class="form-control" />
+                        <button class="btn btn-primary" type="submit">Update</button>
+                    </form>
+                </td>
+                <td>@subtotal</td>
+                <td>
+                    <form asp-controller="Cart" asp-action="Remove" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="cartItemId" value="@item.CartItemId" />
+                        <button class="btn btn-danger" type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-controller="Cart" asp-action="Checkout" method="post" style="display:inline;">
+    @Html.AntiForgeryToken()
+    <button class="btn btn-warning" type="submit">Checkout</button>
+</form>
+
+
+<a class="btn btn-secondary" href="/Products">Back to Products</a>

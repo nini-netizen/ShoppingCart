@@ -1,0 +1,18 @@
+﻿@model ShoppingCart.Models.Product
+<h2>Delete Product</h2>
+
+<p>確定要刪除這個商品嗎？</p>
+
+<ul>
+    <li>ID: @Model.ProductId</li>
+    <li>Name: @Model.Name</li>
+    <li>Price: @Model.Price</li>
+    <li>Stock: @Model.Stock</li>
+</ul>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.ProductId" />
+    <button class="btn btn-danger" type="submit">Delete</button>
+    <a class="btn btn-secondary" asp-action="Index">Cancel</a>
+</form>
